@@ -46,7 +46,10 @@ class Command(NoArgsCommand):
             print "Delete old rows in table ipgeobase..."
             cursor.execute(DELETE_SQL)
             print "Write new data..."
-            cursor.executemany(INSERT_SQL, [l for l in lines if l])
+	    data = [l for l in lines if l]
+	    for line in data:
+	        cursor.execute(INSERT_SQL, line)
+#            cursor.executemany(INSERT_SQL, [l for l in lines if l])
             transaction.commit()
         except Exception, e:
             message = "The data not updated:", e
